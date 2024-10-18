@@ -3,6 +3,7 @@
 
 ### Eclipse ###
 .metadata
+driver.xml
 bin/
 tmp/
 *.tmp
