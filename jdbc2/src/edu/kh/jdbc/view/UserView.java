@@ -72,11 +72,9 @@ public class UserView {
 				
 				case 6: updateName(); break;
 				
-				case 7:
-					/* insertUser2(); */ break;
+				case 7: insertUser2(); break;
 				
-				case 8:
-					/* multiInsertUser(); */ break;
+				case 8: multiInsertUser(); break;
 				
 				case 0 : System.out.println("\n[프로그램 종료]\n"); break;
 				default: System.out.println("\n[메뉴 번호만 입력하세요]\n");
@@ -99,10 +97,6 @@ public class UserView {
 		}while(input != 0);
 		
 	} // mainMenu() 종료
-
-
-
-
 
 	/**
 	 * 1. User 등록
@@ -192,9 +186,9 @@ public class UserView {
 	
 	/**
 	 * 4. USER_NO를 입력 받아 일치하는 User 조회(SELECT)
-	 * @throws SQLException 
+	 * @throws Exception 
 	 */
-	private void selectUser() throws SQLException {
+	private void selectUser() throws Exception {
 		
 		System.out.println("\n*** USER_NO으로 검색 ***\n");
 		System.out.print("검색할 USER_NO : ");
@@ -203,7 +197,10 @@ public class UserView {
 		// 서비스 호출 후 결과 반환 받기.
 		User user = service.selectUser(inputUserNo);
 		
-		if(user == null) System.out.println("회원 번호와 일치하는 회원이 없습니다.");
+		if(user == null) {
+			System.out.println("회원 번호와 일치하는 회원이 없습니다.");
+			return;
+		}
 		else System.out.println("번호 " + inputUserNo + "와(과) 일치하는 회원은 " + user + "입니다.");
 
 	}
@@ -223,13 +220,13 @@ public class UserView {
 			System.out.println("성공적으로 삭제하였습니다.");
 		}
 		else {
-			System.out.println("삭제에 실패했습니다.");
+			System.out.println("사용자 번호가 일치하는 회원이 없음.");
 		}
 		
 	}
 	
 	/**
-	 * ID, PW가 일치하는 회원이 있을 경우 이름을 수정(UPDATE) 메서드.
+	 * 6. ID, PW가 일치하는 회원이 있을 경우 이름을 수정(UPDATE) 메서드.
 	 */
 	private void updateName() throws Exception {
 
@@ -237,21 +234,136 @@ public class UserView {
 		System.out.print("ID 입력 : ");
 		String inputId = sc.next();
 		
-		System.out.println("PW 입력 : ");
+		System.out.print("PW 입력 : ");
 		String inputPw = sc.next();
 		
-		int result = service.updateName(inputId, inputPw);
+		// 입력 받은 ID, PW가 일치하는 회원이 존재하는지 조회(SELECT)
+		// -> USER_NO 조회.
+		int userNo = service.selectUserNo(inputId, inputPw);
+		
+		if(userNo == 0) { // 조회 결과 없음.
+			System.out.println("아이디, 비밀번호가 일치하는 사용자가 없습니다.");
+			return;
+		}
+		
+		// 조회 결과가 있을 때
+		System.out.print("수정할 이름 입력 : ");
+		String userName = sc.next();
+		
+		// 이름 수정 서비스(UPDATE) 호출 후 결과(수정된 행 개수, int) 반환 받기.
+		
+		int result = service.updateName(userName, userNo);
 		
 		if(result > 0) { // UPDATE 성공한 경우
 			System.out.println("이름이 수정되었습니다.");
 		}
 		
 		else { // UPDATE 실패한 경우
-			System.out.println("ID와 PW가 일치하는 회원을 찾지 못했습니다.");
+			System.out.println("이름 수정을 실패했습니다.");
+		}
+
+	}
+	
+	/**
+	 * 7. User 등록(아이디 중복 검사)
+	 */
+	private void insertUser2() throws Exception {
+		
+		System.out.println("\n*** User 등록 ***\n");
+		
+		System.out.print("ID : ");
+		String inputId = sc.next();
+		
+		System.out.print("PW : ");
+		String inputPw = sc.next();
+		
+		System.out.print("Name : ");
+		String inputName = sc.next();
+		
+		User user = new User();
+		
+		user.setUserId(inputId);
+		user.setUserPw(inputPw);
+		user.setUserName(inputName);
+		
+		List<User> userList = service.selectAll();
+		
+		for(User u : userList) {
+			if(u.getUserId().equals(user.getUserId())) {
+				System.out.println("이미 등록되있는 ID 입니다.");
+				return;
+			}
+		}
+		int result = service.insertUser2(user);
+		
+		if(result > 0) {
+			System.out.println("등록 성공.");
+		}
+		else {
+			System.out.println("등록 실패");
+		}
+	}
+	
+	/**
+	 * 8. 여러 User 등록하기.
+	 */
+	private void multiInsertUser() throws Exception{
+
+		System.out.println("\n *** 여러 유저 등록하기 ***\n");
+		
+		int menuNum = 0;
+		
+		List<User> userList = new ArrayList<User>();
+		
+		do {
+
+			System.out.print("ID : ");
+			String inputId = sc.next();
+			
+			System.out.print("PW : ");
+			String inputPw = sc.next();
+			
+			System.out.print("Name : ");
+			String inputName = sc.next();
+			
+			User user = new User();
+			
+			user.setUserId(inputId);
+			user.setUserPw(inputPw);
+			user.setUserName(inputName);
+			
+			System.out.print("계속 추가합니까?(0 입력하면 종료) : ");
+			menuNum = sc.nextInt();
+			
+			userList.add(user);
+
+		} while (menuNum != 0);
+		
+		int result = service.multiInsertUser(userList);
+		
+		if(result > 0) {
+			System.out.println("여러 유저 등록 성공.");
 		}
 		
-		
+		else {
+			System.out.println("여러 유저 등록 실패.");
+		}
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 }

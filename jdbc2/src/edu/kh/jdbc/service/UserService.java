@@ -92,7 +92,7 @@ public class UserService {
 
 	/**
 	 * User 이름 중 검색어가 포함된 회원 조회 서비스.
-	 * @param inputName 
+	 * @param inputName : 입력한 키워드.
 	 * @return 조회된 User가 담겨있는 List
 	 */
 	public List<User> selectName(String inputName) throws Exception {
@@ -112,7 +112,13 @@ public class UserService {
 		return userList;
 	}
 
-	public User selectUser(int inputUserNo) throws SQLException {
+	/**
+	 * 4. USER_NO를 입력 받아 일치하는 User 조회 서비스.
+	 * @param inputUserNo 입력한 사용자번호
+	 * @return User (조회된 회원 정보 객체 또는 null)
+	 * @throws SQLException
+	 */
+	public User selectUser(int inputUserNo) throws Exception {
 		// 1. 커넥션 생성.
 		Connection conn = getConnection();
 		
@@ -130,9 +136,9 @@ public class UserService {
 	}
 
 	/**
-	 * USER_NO으로 User 삭제 서비스.
-	 * @param delUserNo
-	 * @return
+	 * 5. USER_NO으로 User 삭제 서비스.
+	 * @param delUserNo : 입력 받은 사용자 번호.
+	 * @return result int형.
 	 */
 	public int deleteUser(int delUserNo) throws Exception {
 		// 1. 커넥션 생성
@@ -155,8 +161,33 @@ public class UserService {
 
 		return result;
 	}
+	
+	/**
+	 * 6. ID, PW가 일치하는 회원의 USER_NO 조회
+	 * @param inputId
+	 * @param inputPw
+	 * @return userNo
+	 */
+	public int selectUserNo(String inputId, String inputPw) throws Exception {
+		
+		Connection conn = getConnection();
+		
+		int userNo = dao.selectUser(conn, inputId, inputPw);
+		
+		close(conn);
+		
+		
+		return userNo;
+	}
 
-	public int updateName(String inputId, String inputPw) throws Exception {
+	/**
+	 * 6. User 이름 수정
+	 * @param userName
+	 * @param userNo
+	 * @return result
+	 * @throws Exception
+	 */
+	public int updateName(String userName, int userNo) throws Exception {
 
 		// 1. 커넥션 생성.
 		Connection conn = getConnection();
@@ -164,7 +195,7 @@ public class UserService {
 		// 2. 데이터 가공
 		
 		// 3. DAO 메서드 호출(DML : UPDATE) 후 결과 반환 받기.
-		int result = dao.updateName(conn, inputId, inputPw);
+		int result = dao.updateName(conn, userName, userNo);
 		
 		// 4. DML인 경우 트랜잭션 처리.
 		if (result > 0) {
@@ -180,5 +211,53 @@ public class UserService {
 		// 6. 결과 반환
 		return result;
 	}
+
+	/**
+	 * User 등록2
+	 * @param user
+	 * @return
+	 */
+	public int insertUser2(User user) throws Exception {
+
+		Connection conn = getConnection();
+		
+		int result = dao.insertUser2(conn, user);
+		
+		if(result > 0) {
+			commit(conn);
+		}
+		else {
+			rollback(conn);
+		}
+		
+		close(conn);
+		
+		return result;
+	}
+
+	/**
+	 * 여러 유저 등록
+	 * @param userList
+	 * @return
+	 * @throws Exception
+	 */
+	public int multiInsertUser(List<User> userList) throws Exception {
+		
+		Connection conn = getConnection();
+		
+		int result = dao.multiInsertUser(conn, userList);
+		
+		if(result > 0) {
+			commit(conn);
+		}
+		else {
+			rollback(conn);
+		}
+		
+		close(conn);
+		
+		return result;
+	}
+
 
 }

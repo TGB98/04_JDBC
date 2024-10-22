@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 import edu.kh.jdbc.common.JDBCTemplate;
 import edu.kh.jdbc.dto.User;
@@ -187,6 +188,13 @@ public class UserDAO {
 		return userList;
 	}
 
+	/**
+	 * 3. 이름에 검색어가 포함되는 회원 모두 조회 DAO
+	 * @param conn
+	 * @param inputName
+	 * @return
+	 * @throws Exception
+	 */
 	public List<User> selectName(Connection conn, String inputName) throws Exception {
 		
 		// 1. 결과 저장용 변수 선언.
@@ -230,7 +238,14 @@ public class UserDAO {
 		return userList;
 	}
 
-	public User selectUser(Connection conn, int inputUserNo) throws SQLException {
+	/**
+	 * 4. USER_NO가 일치하는 USER를 조회 DAO.
+	 * @param conn
+	 * @param inputUserNo
+	 * @return user 객체 or null
+	 * @throws SQLException
+	 */
+	public User selectUser(Connection conn, int inputUserNo) throws Exception {
 		// 1. 결과 저장용 변수 선언.
 		User user = null;
 		
@@ -303,7 +318,57 @@ public class UserDAO {
 		return result;
 	}
 
-	public int updateName(Connection conn, String inputId, String inputPw) throws Exception {
+	/**
+	 * ID, PW가 일치하는 회원의 USER_NO 조회 DAO
+	 * @param conn
+	 * @param inputId
+	 * @param inputPw
+	 * @return userNo
+	 */
+	public int selectUser(Connection conn, String inputId, String inputPw) throws Exception {
+		
+		// 결과 저장용 변수
+		int userNo = 0;
+		
+		try {
+			// SQL 작성.
+			String sql = """
+					SELECT USER_NO
+					FROM TB_USER
+					WHERE USER_ID = ?
+					AND USER_PW = ?
+					""";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, inputId);
+			pstmt.setString(2, inputPw);
+			
+			rs = pstmt.executeQuery();
+			
+			// 조회된 1행이 있을 경우.
+			if(rs.next()) {
+				userNo = rs.getInt("USER_NO");
+			}
+			
+		} finally {
+			close(rs);
+			close(pstmt);
+		}
+		
+		return userNo; // 조회 성공 시 USER_NO, 실패 시 0 반환.
+	}
+	
+
+	/**
+	 * 6. ID, PW 일치하는 유저 이름 수정
+	 * @param conn
+	 * @param userName
+	 * @param userNo
+	 * @return result
+	 * @throws Exception
+	 */
+	public int updateName(Connection conn, String userName, int userNo) throws Exception {
 
 		// 1. 결과 저장용 변수
 		int result = 0;
@@ -311,14 +376,88 @@ public class UserDAO {
 		try {
 			// 2. sql 작성
 			
-			String sql = "UPDATE TB_USER SET USER_NAME = '' WHERE USER_ID = '' AND USER_PW = ''"
+			String sql = """
+					UPDATE TB_USER
+					SET USER_NAME = ?
+					WHERE USER_NO = ?
+					""";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, userName);
+			pstmt.setInt(2, userNo);
+			
+			result = pstmt.executeUpdate();
+
+		} finally {
+			
+			close(pstmt);
+
+		}
+		
+		return result;
+	}
+
+	/**
+	 * 유저 등록2
+	 * @param conn
+	 * @param user
+	 * @return
+	 */
+	public int insertUser2(Connection conn, User user) throws Exception {
+
+		int result = 0;
+		try {
+			String sql = "INSERT INTO TB_USER VALUES (SEQ_USER_NO.NEXTVAL, ?, ?, ?, DEFAULT)";
+		
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, user.getUserId());
+			pstmt.setString(2, user.getUserPw());
+			pstmt.setString(3, user.getUserName());
+			
+			result = pstmt.executeUpdate();
+			
+		} finally {
+			close(pstmt);
+		}
+
+		return result;
+	}
+
+	/**
+	 * 여러 유저 등록
+	 * @param conn
+	 * @param userList
+	 * @return
+	 * @throws Exception
+	 */
+	public int multiInsertUser(Connection conn, List<User> userList) throws Exception {
+
+		int result = 0;
+		
+		try {
+			for(int i = 0; i < userList.size(); i++) {
+				String sql = "INSERT INTO TB_USER VALUES (SEQ_USER_NO.NEXTVAL, ?, ?, ?, DEFAULT)";
+				
+				pstmt = conn.prepareStatement(sql);
+				
+				User user = userList.get(i);
+				
+				pstmt.setString(1, user.getUserId());
+				pstmt.setString(2, user.getUserPw());
+				pstmt.setString(3, user.getUserName());
+				
+				result = pstmt.executeUpdate();
+			}
 			
 			
 		} finally {
-			
+			close(pstmt);
 		}
 		
-		return 0;
+		
+		return result;
 	}
 
 }
