@@ -425,39 +425,76 @@ public class UserDAO {
 		return result;
 	}
 
+//	/**
+//	 * 여러 유저 등록
+//	 * @param conn
+//	 * @param userList
+//	 * @return
+//	 * @throws Exception
+//	 */
+//	public int multiInsertUser(Connection conn, List<User> userList) throws Exception {
+//
+//		int result = 0;
+//		
+//		try {
+//			for(int i = 0; i < userList.size(); i++) {
+//				String sql = "INSERT INTO TB_USER VALUES (SEQ_USER_NO.NEXTVAL, ?, ?, ?, DEFAULT)";
+//				
+//				pstmt = conn.prepareStatement(sql);
+//				
+//				User user = userList.get(i);
+//				
+//				pstmt.setString(1, user.getUserId());
+//				pstmt.setString(2, user.getUserPw());
+//				pstmt.setString(3, user.getUserName());
+//				
+//				result = pstmt.executeUpdate();
+//			}
+//			
+//			
+//		} finally {
+//			close(pstmt);
+//		}
+//		
+//		
+//		return result;
+//	}
+
 	/**
-	 * 여러 유저 등록
+	 * ID 중복 확인 DAO
 	 * @param conn
-	 * @param userList
+	 * @param userId
 	 * @return
 	 * @throws Exception
 	 */
-	public int multiInsertUser(Connection conn, List<User> userList) throws Exception {
+	public int idCheck(Connection conn, String userId) throws Exception {
 
-		int result = 0;
+		int count = 0;
 		
 		try {
-			for(int i = 0; i < userList.size(); i++) {
-				String sql = "INSERT INTO TB_USER VALUES (SEQ_USER_NO.NEXTVAL, ?, ?, ?, DEFAULT)";
-				
-				pstmt = conn.prepareStatement(sql);
-				
-				User user = userList.get(i);
-				
-				pstmt.setString(1, user.getUserId());
-				pstmt.setString(2, user.getUserPw());
-				pstmt.setString(3, user.getUserName());
-				
-				result = pstmt.executeUpdate();
+			String sql = """
+					SELECT COUNT(*)
+					FROM TB_USER
+					WHERE USER_ID = ?
+					""";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, userId);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				count = rs.getInt(1); // 조회된 컬럼 순서를 이용해 컬럼 값 얻어오기
 			}
 			
-			
-		} finally {
+		}
+		finally {
+			close(rs);
 			close(pstmt);
 		}
-		
-		
-		return result;
+
+		return count;
 	}
 
 }
