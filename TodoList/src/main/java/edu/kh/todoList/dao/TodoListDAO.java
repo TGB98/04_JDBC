@@ -30,4 +30,42 @@ public interface TodoListDAO {
 	 */
 	int todoAdd(Connection conn, String title, String detail) throws Exception;
 
+	/**
+	 * 할 일 상세 조회
+	 * @param conn
+	 * @param todoNo
+	 * @return todo 객체 또는 null
+	 * @throws Exception
+	 */
+	Todo todoDetailView(Connection conn, int todoNo) throws Exception;
+
+	/**
+	 * 완료 여부 변경 DAO
+	 * @param conn
+	 * @param todoNo
+	 * @return int 변경된 행 개수
+	 * @throws Exception
+	 */
+	int todoComplete(Connection conn, int todoNo) throws Exception;
+
+	/**
+	 * 할 일 삭제 DAO
+	 * @param conn
+	 * @param todoNo
+	 * @return
+	 * @throws Exception
+	 */
+	int delete(Connection conn, int todoNo) throws Exception;
+
+	/**
+	 * 할 일 제목/내용 수정 DAO
+	 * @param conn
+	 * @param todoNo
+	 * @param title
+	 * @param detail
+	 * @return
+	 * @throws Exception
+	 */
+	int todoUpdate(Connection conn, int todoNo, String title, String detail) throws Exception;
+
 }

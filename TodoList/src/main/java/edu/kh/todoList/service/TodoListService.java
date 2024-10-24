@@ -2,6 +2,8 @@ package edu.kh.todoList.service;
 
 import java.util.Map;
 
+import edu.kh.todoList.dto.Todo;
+
 /**
  * 
  */
@@ -20,6 +22,40 @@ public interface TodoListService {
 	 * @return int 성공 시 추가된 행의 개수 / 실패 시 0 반환.
 	 */
 	int todoAdd(String title, String detail) throws Exception;
+
+	/**
+	 * 할 일 상세 조회 서비스.
+	 * @param todoNo
+	 * @return null 또는 todo 객체.
+	 */
+	Todo todoDetailView(int todoNo) throws Exception;
+
+	/**
+	 * 완료 여부 변경 서비스.
+	 * @param todoNo
+	 * @return int 수정한 행 개수
+	 * @throws Exception
+	 */
+	int todoComplete(int todoNo) throws Exception;
+
+	/**
+	 * 할 일 삭제 서비스.
+	 * @param todoNo
+	 * @return
+	 * @throws Exception
+	 */
+	int delete(int todoNo) throws Exception;
+
+	/**
+	 * 할 일 수정 서비스.
+	 * @param todoNo
+	 * @param title
+	 * @param detail
+	 * @return
+	 * @throws Exception
+	 */
+	int todoUpdate(int todoNo, String title, String detail) throws Exception;
+
 
 	
 	

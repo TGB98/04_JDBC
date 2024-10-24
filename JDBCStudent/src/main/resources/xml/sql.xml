@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+
+	<entry key = "stdListFullView">
+		SELECT STD_NO, STD_NAME, STD_AGE, STD_GENDER, STD_SCORE
+		FROM TB_STUDENT
+		WHERE STD_NO > 0
+		ORDER BY STD_NO ASC
+	</entry>
+
+	<entry key = "stdDetailView">
+		SELECT STD_NO, STD_NAME, STD_AGE, DECODE(STD_GENDER, 'M', '남', '여') STD_GENDER, STD_SCORE
+		FROM TB_STUDENT
+		WHERE STD_NO = ?
+	</entry>
+
+	<entry key = "stdAdd">
+		INSERT INTO TB_STUDENT
+		VALUES (SEQ_STD_NO.NEXTVAL, ?, ?, ?, ?)
+	</entry>
+
+	<entry key = "stdDelete">
+		DELETE FROM TB_STUDENT
+		WHERE STD_NO = ?
+	</entry>
+	
+	<entry key = "stdUpdate">
+		UPDATE TB_STUDENT
+		SET STD_NAME = ?
+		, STD_AGE = ?
+		, STD_GENDER = ?
+		, STD_SCORE = ?
+		WHERE STD_NO = ?
+	</entry>
+	
+
+</properties>
