@@ -10,8 +10,25 @@ import jakarta.servlet.http.HttpServletResponse;
 import kh.edu.stdList.service.StdListService;
 import kh.edu.stdList.service.StdListServiceImpl;
 
-@WebServlet("/std/add")
-public class StdAddServlet extends HttpServlet {
+@WebServlet("/std/goToadd")
+public class StdGoToAdd extends HttpServlet {
+
+	@Override
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+		try {
+			
+			String path = "/WEB-INF/views/add.jsp";
+			
+			req.getRequestDispatcher(path).forward(req, resp);
+
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+	
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -19,7 +36,7 @@ public class StdAddServlet extends HttpServlet {
 		try {
 			
 			StdListService service = new StdListServiceImpl();
-			
+
 			String stdName = req.getParameter("stdName");
 			
 			int stdAge = Integer.parseInt(req.getParameter("stdAge"));
@@ -28,7 +45,7 @@ public class StdAddServlet extends HttpServlet {
 			
 			String stdScore = req.getParameter("stdScore");
 			
-			int result = service.stdAdd(stdName, stdAge, stdGender, stdScore);
+			int result = service.stdGoToAdd(stdName, stdAge, stdGender, stdScore);
 			
 			String message = null;
 			
@@ -43,13 +60,19 @@ public class StdAddServlet extends HttpServlet {
 			
 			req.getSession().setAttribute("message", message);
 
-		} catch (Exception e) {
+		} catch(Exception e) {
 			e.printStackTrace();
 		}
 	
 	
 	
+	
+	
+	
+	
 	}
+	
+	
 	
 	
 	

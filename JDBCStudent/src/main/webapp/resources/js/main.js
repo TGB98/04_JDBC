@@ -1,5 +1,11 @@
 const stdAdd = document.querySelector("#addForm");
 const stdName = document.querySelector("[name=stdName]");
+const goToAdd = document.querySelector("#goToAdd");
+
+goToAdd.addEventListener("click", () => {
+	
+	location.href = "/std/goToadd";
+});
 
 stdAdd.addEventListener("submit", e => {
 

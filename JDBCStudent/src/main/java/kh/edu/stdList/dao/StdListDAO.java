@@ -11,10 +11,10 @@ public interface StdListDAO {
 
 	Student stdDetailView(Connection conn, int todoNo) throws Exception;
 
-	int stdAdd(Connection conn, String stdName, int stdAge, String stdGender, String stdScore) throws Exception;
-
 	int stdDelete(Connection conn, int stdNo) throws Exception;
 
 	int stdUpdate(Connection conn, int stdNo, String stdName, int stdAge, String stdGender, String stdScore) throws Exception;
+
+	int stdGoToAdd(Connection conn, String stdName, int stdAge, String stdGender, String stdScore) throws Exception;
 
 }

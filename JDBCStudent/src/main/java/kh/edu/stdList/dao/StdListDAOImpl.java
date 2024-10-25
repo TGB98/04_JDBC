@@ -100,34 +100,6 @@ public class StdListDAOImpl implements StdListDAO {
 	}
 
 	@Override
-	public int stdAdd(Connection conn, String stdName, int stdAge, String stdGender, String stdScore) throws Exception {
-
-		int result = 0;
-		
-		try {
-			
-			String sql = prop.getProperty("stdAdd");
-			
-			pstmt = conn.prepareStatement(sql);
-			
-			pstmt.setString(1, stdName);
-			
-			pstmt.setInt(2, stdAge);
-			
-			pstmt.setString(3, stdGender);
-			
-			pstmt.setString(4, stdScore);
-			
-			result = pstmt.executeUpdate();
-			
-		} finally {
-			close(pstmt);
-		}
-
-		return result;
-	}
-
-	@Override
 	public int stdDelete(Connection conn, int stdNo) throws Exception {
 
 		int result = 0;
@@ -174,5 +146,32 @@ public class StdListDAOImpl implements StdListDAO {
 
 		return result;
 	}
+
+	@Override
+	public int stdGoToAdd(Connection conn, String stdName, int stdAge, String stdGender, String stdScore)
+			throws Exception {
+
+		int result = 0;
+		
+		try {
+			String sql = prop.getProperty("stdGoToAdd");
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, stdName);
+			pstmt.setInt(2, stdAge);
+			pstmt.setString(3, stdGender);
+			pstmt.setString(4, stdScore);
+			
+			result = pstmt.executeUpdate();
+			
+		} finally {
+			close(pstmt);
+		}
+
+		return result;
+	}
+
+
 
 }

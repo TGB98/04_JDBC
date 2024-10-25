@@ -37,25 +37,7 @@ public class StdListServiceImpl implements StdListService {
 
 		return std;
 	}
-
-
-	@Override
-	public int stdAdd(String stdName, int stdAge, String stdGender, String stdScore) throws Exception {
-
-		Connection conn = getConnection();
-		
-		int result = dao.stdAdd(conn, stdName, stdAge, stdGender, stdScore);
-		
-		if(result > 0) commit(conn);
-		else rollback(conn);
-		
-		close(conn);
-		
-		
-		return result;
-	}
-
-
+	
 	@Override
 	public int stdDelete(int stdNo) throws Exception {
 
@@ -86,5 +68,24 @@ public class StdListServiceImpl implements StdListService {
 
 		return result;
 	}
+
+
+	@Override
+	public int stdGoToAdd(String stdName, int stdAge, String stdGender, String stdScore) throws Exception {
+
+		Connection conn = getConnection();
+		
+		int result = dao.stdGoToAdd(conn, stdName, stdAge, stdGender, stdScore);
+		
+		if(result > 0) commit(conn);
+		else rollback(conn);
+		
+		close(conn);
+		
+		return result;
+	}
+
+
+
 
 }

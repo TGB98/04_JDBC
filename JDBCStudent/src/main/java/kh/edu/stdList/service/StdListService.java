@@ -10,11 +10,11 @@ public interface StdListService {
 
 	Student stdDetailView(int todoNo) throws Exception;
 
-	int stdAdd(String stdName, int stdAge, String stdGender, String stdScore) throws Exception;
-
 	int stdDelete(int stdNo) throws Exception;
 
 	int stdUpdate(int stdNo, String stdName, int stdAge, String stdGender, String stdScore) throws Exception;
+
+	int stdGoToAdd(String stdName, int stdAge, String stdGender, String stdScore) throws Exception;
 
 	
 	

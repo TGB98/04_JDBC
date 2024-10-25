@@ -15,11 +15,6 @@
 		WHERE STD_NO = ?
 	</entry>
 
-	<entry key = "stdAdd">
-		INSERT INTO TB_STUDENT
-		VALUES (SEQ_STD_NO.NEXTVAL, ?, ?, ?, ?)
-	</entry>
-
 	<entry key = "stdDelete">
 		DELETE FROM TB_STUDENT
 		WHERE STD_NO = ?
@@ -34,5 +29,9 @@
 		WHERE STD_NO = ?
 	</entry>
 	
+	<entry key = "stdGoToAdd">
+		INSERT INTO TB_STUDENT
+		VALUES (SEQ_STD_NO.NEXTVAL, ?, ?, ?, ?)
+	</entry>
 
 </properties>
