@@ -34,6 +34,6 @@
     </form>
 
 
-
+<script src="/resources/js/add.js"></script>
 </body>
 </html>
