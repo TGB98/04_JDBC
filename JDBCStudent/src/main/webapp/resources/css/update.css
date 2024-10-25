@@ -1,0 +1,11 @@
+#updateT{
+  border-collapse: collapse;
+}
+
+#updateT td, #updateT th{
+  padding: 5px 8px;
+}
+
+thead th{
+  background-color: azure;
+}

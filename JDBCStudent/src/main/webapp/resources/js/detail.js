@@ -1,5 +1,5 @@
 const stdNo = new URLSearchParams(location.search).get("stdNo");
-const stdAdd = document.querySelector("#addForm");
+
 const stdName = document.querySelector("[name=stdName]");
 const stdAge = document.querySelector("[name=stdAge]");
 let stdGender = document.querySelectorAll("[name=stdGender]");
@@ -20,6 +20,8 @@ updateBtn.addEventListener("click", () => {
   location.href = "/std/update?stdNo=" + stdNo;
 
 });
+
+
 
 const deleteBtn = document.querySelector("#deleteBtn");
 

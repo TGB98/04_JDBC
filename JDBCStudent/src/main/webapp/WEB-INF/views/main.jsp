@@ -26,7 +26,7 @@
       <tr>
       	<th>${std.stdNo}</th>
       	<td>
-	    	<h3>등록되어 있는 학생 : 
+	    	<h3>떡잎마을 유치원생 : 
 			 <a href="/std/detail?stdNo=${std.stdNo}">${std.stdName}</a>
 			</h3>
 		</td>
@@ -43,8 +43,8 @@
     		나이 : <input type="number" name="stdAge">
     	</div>
     	<div>
-    		성별 : <label><input type="radio" name="stdGender" value = "M">남성</label>
-    			   <label><input type="radio" name="stdGender" value = "F">여성</label>
+    		성별 : <label><input type="radio" name="stdGender"  value = "M">남성</label>
+    			   <label><input type="radio" name="stdGender"  value = "F">여성</label>
     	</div>
     	<div>
     		성적 : <select name="stdScore">

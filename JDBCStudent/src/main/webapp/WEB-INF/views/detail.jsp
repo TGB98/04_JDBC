@@ -11,13 +11,26 @@
 </head>
 <body>
 	<h1>${std.stdName} 상세 조회</h1>
-	<div class="content">
-이름 : ${std.stdName}
-나이 : ${std.stdAge}
-성별 : ${std.stdGender}
-성적 : ${std.stdScore}
-	</div>
-	
+	<table id = "stdList">
+		<thead class = "thead">
+			<tr>
+				<th>이름</th>
+				<th>나이</th>
+				<th>성별</th>
+				<th>성적</th>
+			</tr>
+		</thead>
+		
+		<tbody class = "tbody">
+			<tr>
+				<th>${std.stdName}</th>
+				<th>${std.stdAge}</th>
+				<th>${std.stdGender}</th>
+				<th>${std.stdScore}</th>
+			</tr>
+		</tbody>
+	</table>
+
 	<div class="btn-container">
 		<div>
 			<button id="goToList">목록으로 가기</button>

@@ -1,9 +1,9 @@
 /* 테이블 스타일 지정 */
-#todoList{
+#stdList{
   border-collapse: collapse;
 }
 
-#todoList td, #todoList th{
+#std td, #std th{
   padding: 5px 8px;
 }
 
