@@ -12,6 +12,7 @@ stdAdd.addEventListener("submit", e => {
 
     alert("이름은 필수 입력 값입니다.");
     stdName.focus();
+	return;
   }
 });
 
@@ -24,7 +25,7 @@ stdAdd.addEventListener("submit", e => {
 
     alert("나이는 필수 입력 값입니다.");
     stdAge.focus();
-
+	return;
  }
 });
 
