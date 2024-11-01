@@ -12,12 +12,8 @@ stdUpdate.addEventListener("submit", e => {
 
     alert("이름은 필수 입력 값입니다.");
     stdName.focus();
-
+    return;
   }
-
-});
-
-stdUpdate.addEventListener("submit", e => {
 
   const inputAge = stdAge.value.trim();
 
@@ -26,7 +22,21 @@ stdUpdate.addEventListener("submit", e => {
 
     alert("나이는 필수 입력 값입니다.");
     stdAge.focus();
-
+    return;
   }
-  
+
 });
+
+// stdUpdate.addEventListener("submit", e => {
+
+//   const inputAge = stdAge.value.trim();
+
+//   if(inputAge.length === 0) {
+//     e.preventDefault();
+
+//     alert("나이는 필수 입력 값입니다.");
+//     stdAge.focus();
+
+//   }
+  
+// });
